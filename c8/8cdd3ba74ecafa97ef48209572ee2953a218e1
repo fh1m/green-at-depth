@@ -1,0 +1,24 @@
+.gitignore
+  h_f1b9066eb9899c 1-2
+README.md
+  h_f1b9066eb9899c 1,3,5-8,10-87
+depthsight/run.py
+  h_f1b9066eb9899c 1-89
+depthsight/scene.py
+  h_f1b9066eb9899c 1-30
+depthsight/water.py
+  h_f1b9066eb9899c 1-52
+requirements.txt
+  h_f1b9066eb9899c 1-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "c88cdd3ba74ecafa97ef48209572ee2953a218e1",
+  "prompts": {},
+  "humans": {
+    "h_f1b9066eb9899c": {
+      "author": "fh1m <fahim.2002.faisal@gmail.com>"
+    }
+  }
+}
