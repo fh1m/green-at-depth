@@ -1,0 +1,22 @@
+README-2023.md
+  h_f1b9066eb9899c 1-9
+README.md
+  h_f1b9066eb9899c 7-14,70-90,96-99,102,108,112-113
+depthsight/detect.py
+  h_f1b9066eb9899c 1-112
+requirements.txt
+  h_f1b9066eb9899c 4
+tests/test_detect.py
+  h_f1b9066eb9899c 1-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "d533527f771025b137591c762e1499695b00da4f",
+  "prompts": {},
+  "humans": {
+    "h_f1b9066eb9899c": {
+      "author": "fh1m <fahim.2002.faisal@gmail.com>"
+    }
+  }
+}
