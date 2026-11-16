@@ -4,8 +4,14 @@
 
 In November 2023 I wrote a 40-line OpenCV script that found green arrows by
 asking every pixel one question: *is your hue between 50 and 70?* It worked
-on my desk. It was meant for an underwater robot. This repo is what happens
-when you take that script for a swim.
+on my desk. It was meant for an underwater robot.
+
+![The 2023 script on my desk: a hollow green arrow, plus some confident green reflections](assets/original/desk-2023-arrow.png)
+
+*November 2023, on the desk. It was called "arrow detection". It detected green.*
+
+This repo does two things to that script: it takes it for a swim, and then
+it finishes it.
 
 ![IoU of the arrow mask against depth for three strategies](assets/iou_vs_depth.png)
 
@@ -61,23 +67,50 @@ Three things I didn't expect:
 
 Water decides when the threshold dies. The engineering only gets to move the depth.
 
+## Finishing the 2023 job
+
+[`depthsight/detect.py`](depthsight/detect.py) is the script I meant to write:
+it finds *an arrow*, not just green, and says which way it points.
+
+- **Shape is a second opinion that colour can't fake.** An arrow is solid but
+  notched (its area is 55–92 % of its convex hull), while the gate post is a
+  rectangle at ~100 %. That one check removes the 2 m hallucination without any
+  white balance.
+- **The head is the wide end.** My first attempt took the point farthest from the
+  centroid as the tip and got every arrow backwards: the head's bulk drags the
+  centroid forward, so the tail corners win. v2 looks along the shape's long axis
+  and calls the end that's wider across the head.
+- `--gray-world` and `--range-m` bring in the two fixes from the depth sweep.
+
+![v2 at 2 m: the arrow found, the post ignored](assets/detect_2m.png)
+![v2 rerun on the actual 2023 desk frame](assets/detect_2023_rerun.png)
+
+*Top: 2 m of water, post correctly ignored. Bottom: the original 2023 frame,
+rerun. Arrow found, pointing left, reflections ignored.*
+
 ## Run it
 
 ```bash
 python -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
-python -m depthsight.run      # prints the table, rewrites assets/*.png
+python -m depthsight.run                              # the depth sweep: table + assets/*.png
+python -m depthsight.detect                           # webcam, live
+python -m depthsight.detect --image some.png --gray-world
+pytest -q                                             # directions, the post, the 2023 frame
 ```
 
-Deterministic: fixed seeds, no camera needed.
+Deterministic: fixed seeds, no camera needed for anything but the live mode.
 
 ## Layout
 
 ```
 origin/detect.py       the 2023 webcam script, untouched
+README-2023.md         its README, with the original screenshots
 depthsight/water.py    image-formation model, gray-world, inversion
 depthsight/scene.py    synthetic test card with exact ground truth
 depthsight/run.py      the sweep, the plot, the filmstrip
+depthsight/detect.py   the finished detector
+tests/                 what it must keep getting right
 ```
 
 ## Where this went
